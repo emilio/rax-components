@@ -121,11 +121,14 @@ export default class VirtualizedList extends BaseList {
 
     let showsScrollIndicator = horizontal ? showsHorizontalScrollIndicator : showsVerticalScrollIndicator;
 
-    if (!showsScrollIndicator && typeof document !== 'undefined' && !document.getElementById(STYLE_NODE_ID)) {
-      let styleNode = document.createElement('style');
-      styleNode.id = STYLE_NODE_ID;
-      document.head.appendChild(styleNode);
-      styleNode.innerHTML = `.${this.props.className}::-webkit-scrollbar{display: none;}`;
+    if (!showsScrollIndicator) {
+      wrapperStyle.scrollbarWidth = 'none';
+      if (typeof document !== 'undefined' && !document.getElementById(STYLE_NODE_ID)) {
+        let styleNode = document.createElement('style');
+        styleNode.id = STYLE_NODE_ID;
+        document.head.appendChild(styleNode);
+        styleNode.innerHTML = `.${this.props.className}::-webkit-scrollbar{display: none;}`;
+      }
     }
 
     // return children when has nested list

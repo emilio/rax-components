@@ -244,16 +244,18 @@ const ScrollView: ForwardRefExoticComponent<ScrollViewProps> = forwardRef(
       ? showsHorizontalScrollIndicator
       : showsVerticalScrollIndicator;
     {
-      if (
-        !showsScrollIndicator &&
-        typeof document !== 'undefined' &&
-        typeof document.getElementById === 'function' &&
-        !document.getElementById(STYLE_NODE_ID)
-      ) {
-        let styleNode = document.createElement('style');
-        styleNode.id = STYLE_NODE_ID;
-        document.head.appendChild(styleNode);
-        styleNode.innerHTML = `.${baseCls}::-webkit-scrollbar{display: none;}`;
+      if (!showsScrollIndicator) {
+        scrollerStyle.scrollbarWidth = 'none';
+        if (
+          typeof document !== 'undefined' &&
+          typeof document.getElementById === 'function' &&
+          !document.getElementById(STYLE_NODE_ID)
+        ) {
+          let styleNode = document.createElement('style');
+          styleNode.id = STYLE_NODE_ID;
+          document.head.appendChild(styleNode);
+          styleNode.innerHTML = `.${baseCls}::-webkit-scrollbar{display: none;}`;
+        }
       }
 
       scrollerStyle.WebkitOverflowScrolling = 'touch';
